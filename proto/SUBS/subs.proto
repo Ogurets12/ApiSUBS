@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package subscription;
+
+option go_package = "SUBS/internal/grpc/subscription;subscription";
+
+service SubscriptionService {
+  rpc CreateSubscription(CreateSubscriptionRequest) returns (CreateSubscriptionResponse);
+  rpc GetSubscription(GetSubscriptionRequest) returns (GetSubscriptionResponse);
+  rpc GetUserSubscriptions(GetUserSubscriptionsRequest) returns (GetUserSubscriptionsResponse);
+}
+
+message CreateSubscriptionRequest {
+  int64 user_id = 1;
+  string plan = 2;
+  int64 duration = 3; // Duration in seconds
+}
+
+message CreateSubscriptionResponse {
+  int64 id = 1;
+}
+
+message GetSubscriptionRequest {
+  int64 id = 1;
+}
+
+message GetSubscriptionResponse {
+  int64 id = 1;
+  int64 user_id = 2;
+  string plan = 3;
+  int64 created_at = 4;
+  int64 expires_at = 5;
+}
+
+message GetUserSubscriptionsRequest {
+  int64 user_id = 1;
+}
+
+message GetUserSubscriptionsResponse {
+  repeated Subscription subscriptions = 1;
+}
+
+message Subscription {
+  int64 id = 1;
+  int64 user_id = 2;
+  string plan = 3;
+  int64 created_at = 4;
+  int64 expires_at = 5;
+}
